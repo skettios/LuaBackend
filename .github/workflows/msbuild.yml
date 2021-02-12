@@ -13,13 +13,11 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - windows-latest
-        architecture:
-          - x86
+    runs-on:
+      strategy:
+        matrix:
+          os: [windows-2019]
+          platform: [Win32]
 
     steps:
     - uses: actions/checkout@v2
