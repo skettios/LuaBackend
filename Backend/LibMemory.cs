@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LuaBackend.Backend
 {
-    public static class MemoryClass
+    public static class LibMemory
     {
         private const int PROCESS_ALL_ACCESS = 0x001F0FFF;
 
@@ -14,6 +14,7 @@ namespace LuaBackend.Backend
         private static IntPtr _pHandle;
 
         public static IntPtr BaseAddress = IntPtr.Zero;
+        public static int GameAddress = 0x20000000;
 
         #region DLL Imports
         [DllImport("kernel32.dll")]

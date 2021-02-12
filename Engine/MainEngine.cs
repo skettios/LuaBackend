@@ -62,6 +62,14 @@ namespace LuaBackend.Engine
 
         public void RunScripts()
         {
+            foreach (var _script in LoadedScripts)
+            {
+                var _initTask = _script.Globals.Get("_OnInit");
+
+                if (_initTask.IsNotNil())
+                    _initTask.Function.GetDelegate().Invoke();
+            }
+
             Action _runFunction = delegate()
             {
                 var _intreval = 0;
@@ -74,8 +82,10 @@ namespace LuaBackend.Engine
                     {
                         foreach(var _script in LoadedScripts)
                         {
-                            var _frameTask = _script.Globals.Get("_OnFrame").Function.GetDelegate();
-                            _frameTask();
+                            var _frameTask = _script.Globals.Get("_OnFrame");
+
+                            if (_frameTask.IsNotNil())
+                                _frameTask.Function.GetDelegate().Invoke();
                         }
 
                         _intreval = 0;
