@@ -4,7 +4,9 @@
 #include <iostream>
 #include <filesystem>
 #include <sol/sol.hpp>
+
 #include <MemoryLib.h>
+#include <ConsoleLib.h>
 
 using namespace sol;
 using namespace std;

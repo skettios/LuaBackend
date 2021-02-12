@@ -38,5 +38,8 @@
     <ClInclude Include="include\LuaBackend.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="include\ConsoleLib.h">
+      <Filter>Header Files\Backend</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

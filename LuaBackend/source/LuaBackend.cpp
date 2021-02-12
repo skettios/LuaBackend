@@ -37,7 +37,7 @@ LuaBackend::LuaBackend()
 		string _filePath(_path.path().u8string());
 
 		if (_filePath.find(".lua") != std::string::npos) {
-			cout << "\nLuaEngine: Found script! Initializing...\n";
+			cout << "\nMESSAGE: Found script! Initializing...\n";
 			auto _result = _script->luaState.script_file(_filePath);
 
 			_script->initFunction = _script->luaState["_OnInit"];
@@ -45,18 +45,18 @@ LuaBackend::LuaBackend()
 
 			if (!_script->initFunction && !_script->frameFunction)
 			{
-				cout << "\nLuaEngine: None of the needed functions exist or all of them have errors.\n";
-				cout << L"LuaEngine: Initialization of this script cannot continue...\n";
+				cout << "\nERROR: No event handlers exist or all of them have errors.\n";
+				cout << L"ERROR: Initialization of this script cannot continue...\n";
 				return;
 			}
 
 			if (!_script->initFunction)
-				cout << "LuaEngine: The \"_OnInit\" function either has errors or does not exist.\n";
+				cout << "WARNING: The event handler for initialization either has errors or does not exist.\n";
 
 			if (!_script->frameFunction)
-				cout << "LuaEngine: The \"_OnFrame\" function either has errors or does not exist.\n";
+				cout << "WARNING: The event handler for framedraw either has errors or does not exist.\n";
 
-			cout << "LuaEngine: Initialization Successful!\n";
+			cout << "MESSAGE: Initialization of this script was successful!\n";
 			loadedScripts.push_back(_script);
 		}
 	}
@@ -64,9 +64,12 @@ LuaBackend::LuaBackend()
 
 void LuaBackend::SetFunctions(LuaState* _state)
 {
+	_state->set_function("ReadByte", MemoryLib::ReadByte);
 	_state->set_function("ReadShort", MemoryLib::ReadShort);
 	_state->set_function("ReadInt", MemoryLib::ReadInt);
+	_state->set_function("ReadFloat", MemoryLib::ReadFloat);
+	_state->set_function("ReadBoolean", MemoryLib::ReadBool);
 	_state->set_function("ReadArray", MemoryLib::ReadBytes);
 
-	_state->set_function("Print", sol::overload(MemoryLib::Print<int>, MemoryLib::Print<std::string>));
+	_state->set_function("Print", sol::overload(ConsoleLib::Print<int>, ConsoleLib::Print<std::string>));
 }
