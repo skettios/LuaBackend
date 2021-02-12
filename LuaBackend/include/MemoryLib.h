@@ -2,6 +2,7 @@
 #define MEMORYLIB
 
 #include <windows.h>
+#include <iostream>
 #include <string>
 
 class MemoryLib
@@ -40,10 +41,7 @@ class MemoryLib
     }
 
     template <class T>
-    static void Print(T Input)
-    {
-        std::cout << Input << "\n";
-    }
+    static void Print(T Input) { std::cout << Input << "\n"; }
 };
 
 #endif
