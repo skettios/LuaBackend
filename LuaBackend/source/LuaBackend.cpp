@@ -70,6 +70,15 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("ReadFloat", MemoryLib::ReadFloat);
 	_state->set_function("ReadBoolean", MemoryLib::ReadBool);
 	_state->set_function("ReadArray", MemoryLib::ReadBytes);
+	_state->set_function("ReadString", MemoryLib::ReadString);
+
+	_state->set_function("WriteByte", MemoryLib::WriteByte);
+	_state->set_function("WriteShort", MemoryLib::WriteShort);
+	_state->set_function("WriteInt", MemoryLib::WriteInt);
+	_state->set_function("WriteFloat", MemoryLib::WriteFloat);
+	_state->set_function("WriteBoolean", MemoryLib::WriteBool);
+	_state->set_function("WriteArray", MemoryLib::WriteBytes);
+	_state->set_function("WriteString", MemoryLib::WriteString);
 
 	_state->set_function("Print", sol::overload(ConsoleLib::Print<int>, ConsoleLib::Print<std::string>));
 }
