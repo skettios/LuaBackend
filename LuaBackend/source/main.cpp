@@ -42,7 +42,6 @@ int main()
 
 	bool _readSuccess = _iniFile.read(_iniStruct);
 
-
 	if (_readSuccess)
 	{
 		if (_iniStruct.has("CONFIG"))
@@ -55,6 +54,7 @@ int main()
 				auto _addr = _table["BASE_ADDRESS"];
 
 				bool _bigEndian = false;
+				bool _attachOn = false;
 
 				if (_table.has("BIG-ENDIAN"))
 				{
@@ -64,12 +64,61 @@ int main()
 					_bigEndian = _boolGet == "true" ? true : false;
 				}
 
-				_currPath.append("\\" + _exec);
-				uint32_t _baseAddress = stoi(_addr.c_str(), nullptr, 16);
+				if (_table.has("ATTACH"))
+				{
+					string _boolGet = _table["ATTACH"];
+					transform(_boolGet.begin(), _boolGet.end(), _boolGet.begin(), ::tolower);
 
-				cout << "MESSAGE: Found linked executable! Running..." << "\n";
-				MemoryLib::ExecuteProcess(_currPath, _baseAddress, _bigEndian);
+					_attachOn = _boolGet == "true" ? true : false;
+				}
+
+				_currPath.append("\\" + _exec);
 				
+				uint64_t _baseAddress;
+				std::istringstream _stream(_addr);
+				_stream >> _baseAddress;
+
+				if (_attachOn)
+				{
+					cout << "MESSAGE: Trying to attach to the specified executable..." << "\n";
+					bool _status = MemoryLib::LatchProcess(_exec, _baseAddress, _bigEndian);
+
+					if (_status)
+						cout << "MESSAGE: Link was successful..." << "\n";
+
+					else
+					{
+						cout << "ERROR: Link failed! Aborting..." << "\n";
+						cout << "Press any key to exit..." << "\n";
+						cin.get();
+						return -5;
+					}
+				}
+
+				else
+				{
+					cout << "MESSAGE: Trying to run the specified executable..." << "\n";
+					MemoryLib::ExecuteProcess(_currPath, _baseAddress, _bigEndian);
+				}
+
+				uint64_t _execAddress = (uint64_t)MemoryLib::FindBaseAddr(MemoryLib::_pHandle, _exec);
+				MemoryLib::SetExecAddr(_execAddress);
+
+				if (_addr.find(_exec) != std::string::npos)
+				{
+					string _offStr = _addr;
+					_offStr.erase(0, _offStr.find('+') + 1);
+
+					uint64_t _offset;
+
+					std::stringstream _stream;
+					_stream << std::hex << _offStr;
+					_stream >> _offset;
+
+-					_baseAddress == _execAddress + _offset;
+					MemoryLib::SetBaseAddr(_baseAddress);
+				}
+
 				if (!filesystem::exists(_scriptPath))
 					filesystem::create_directory(_scriptPath);
 
@@ -101,13 +150,28 @@ int main()
 			}
 
 			else
+			{
 				cout << "ERROR: Invalid config! Field \"EXECUTABLE\" not found!" << "\n";
+				cout << "Press any key to exit..." << "\n";
+				cin.get();
+				return -2;
+			}
 		}
 
 		else
+		{
 			cout << "ERROR: Invalid config! Table \"CONFIG\" not found!" << "\n";
+			cout << "Press any key to exit..." << "\n";
+			cin.get();
+			return -3;
+		}
 	}
 
 	else
+	{
 		cout << "ERROR: Config file \"config.ini\" not found!" << "\n";
+		cout << "Press any key to exit..." << "\n";
+		cin.get();
+		return -1;
+	}
 }

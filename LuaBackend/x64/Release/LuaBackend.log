@@ -1,0 +1,11 @@
+﻿  LuaBackend.cpp
+  main.cpp
+C:\Users\Topaz\Documents\GitHub\LuaBackend\LuaBackend\source\main.cpp(118,20): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\Topaz\Documents\GitHub\LuaBackend\LuaBackend\source\main.cpp(118,20): warning C4553: '==': result of expression not used; did you intend '='?
+     Creating library C:\Users\Topaz\Documents\GitHub\LuaBackend\x64\Release\LuaBackend.lib and object C:\Users\Topaz\Documents\GitHub\LuaBackend\x64\Release\LuaBackend.exp
+  Generating code
+  19 of 2956 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    10 functions were new in current compilation
+    77 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  LuaBackend.vcxproj -> C:\Users\Topaz\Documents\GitHub\LuaBackend\x64\Release\LuaBackend.exe

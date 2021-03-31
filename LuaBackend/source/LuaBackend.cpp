@@ -80,5 +80,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteArray", MemoryLib::WriteBytes);
 	_state->set_function("WriteString", MemoryLib::WriteString);
 
+	_state->set_function("WriteExec", MemoryLib::WriteExec);
+
 	_state->set_function("Print", sol::overload(ConsoleLib::Print<int>, ConsoleLib::Print<std::string>));
 }
