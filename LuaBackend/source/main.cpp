@@ -26,9 +26,12 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "================================" << "\n";
-	cout << "=== LuaBackend | v0.01 ALPHA ===" << "\n";
-	cout << "=== Copyright - TopazTK 2021 ===" << "\n";
+	cout << "==== LuaBackend | v0.1 BETA ====" << "\n";
+	cout << "=== Copyright 2021 - TopazTK ===" << "\n";
+	cout << "================================" << "\n";
+	cout << "== Compatible with LuaEngine. ==" << "\n";
 	cout << "================================" << "\n\n";
+
 
 	string _currPath = filesystem::current_path().u8string();
 	string _confPath = _currPath;
@@ -88,7 +91,7 @@ int main()
 
 					else
 					{
-						cout << "ERROR: Link failed! Aborting..." << "\n";
+						cout << "\n" << "ERROR: Link failed! Aborting..." << "\n";
 						cout << "Press any key to exit..." << "\n";
 						cin.get();
 						return -5;
@@ -115,7 +118,7 @@ int main()
 					_stream << std::hex << _offStr;
 					_stream >> _offset;
 
--					_baseAddress == _execAddress + _offset;
+					_baseAddress = _execAddress + _offset;
 					MemoryLib::SetBaseAddr(_baseAddress);
 				}
 
@@ -123,7 +126,7 @@ int main()
 					filesystem::create_directory(_scriptPath);
 
 				cout << "MESSAGE: Hooking and initializing the backend..." << "\n";
-				_backend = new LuaBackend();
+				_backend = new LuaBackend(_exec);
 
 				cout << "\n" << "MESSAGE: Executing initialization event handlers..." << "\n\n";
 				for (auto _script : _backend->loadedScripts)
@@ -134,6 +137,8 @@ int main()
 				future<void> futureObj = exitSignal.get_future();
 				std::thread _frameThread(&_execute, std::move(futureObj));
 
+				cout << "MESSAGE: Initialization complete!" << "\n";
+				cout << "MESSAGE: Type \"reload\" to reload all scripts, type \"exit\" to exit." << "\n\n";
 				while (true)
 				{
 					string _output;
@@ -145,6 +150,13 @@ int main()
 						exitSignal.set_value();
 						_frameThread.join();
 						break;
+					}
+
+					else if (_output == "reload")
+					{
+						exitSignal.set_value();
+						_frameThread.join();
+						main();
 					}
 				}
 			}

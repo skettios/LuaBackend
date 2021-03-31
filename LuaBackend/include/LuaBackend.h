@@ -26,8 +26,8 @@ class LuaBackend
 
 		std::vector<LuaScript*> loadedScripts;
 
-		void SetFunctions(LuaState* _state);
-		LuaBackend();
+		void SetFunctions(LuaState*);
+		LuaBackend(string);
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "LuaBackend.h"
+#include "CRC.h"
 
-LuaBackend::LuaBackend()
+LuaBackend::LuaBackend(string InputName)
 {
 	loadedScripts.clear();
 	string _currPath = std::filesystem::current_path().u8string().append("\\scripts");
@@ -33,6 +34,16 @@ LuaBackend::LuaBackend()
 
 		_script->luaState["package"]["path"] = _luaPath;
 		_script->luaState["package"]["cpath"] = _dllPath;
+
+		string _loadPath = std::filesystem::current_path().u8string().append("\\io_load");
+
+		_script->luaState["LOAD_PATH"] = _loadPath;
+		_script->luaState["SCRIPT_PATH"] = _currPath;
+		_script->luaState["CHEATS_PATH"] = "NOT_AVAILABLE";
+
+		_script->luaState["ENGINE_VERSION"] = 2.5F;
+		_script->luaState["ENGINE_TYPE"] = "BACKEND";
+		_script->luaState["GAME_ID"] = CRC::Calculate(InputName.c_str(), InputName.length(), CRC::CRC_32());
 
 		string _filePath(_path.path().u8string());
 
