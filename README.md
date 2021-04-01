@@ -69,6 +69,10 @@ That's it!
 - ``ATTACH`` => Optional. If set to 'true', it will attach to an already running EXE. If not set or 'false', it will launch said executable and attach. If this value is not set or is 'false', LuaBackend must be at the same location as the given EXE.
 - ``BIG_ENDIAN`` => Optional. Data will be written in Big Endian if set tu 'true'. Required for RPCS3.
 
+## LuaBackend Preset Configs
+
+In your downloaded ZIP, there will be configs already made for the games you want to use them with. Simply drag one of them out so it's next to the LuaBackend EXE and rename it to ``"config.ini"``.
+
 ## LuaBackend Cheatsheet
 
 ---
