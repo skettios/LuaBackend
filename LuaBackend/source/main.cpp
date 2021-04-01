@@ -59,9 +59,9 @@ int main()
 				bool _bigEndian = false;
 				bool _attachOn = false;
 
-				if (_table.has("BIG-ENDIAN"))
+				if (_table.has("BIG_ENDIAN"))
 				{
-					string _boolGet = _table["BIG-ENDIAN"];
+					string _boolGet = _table["BIG_ENDIAN"];
 					transform(_boolGet.begin(), _boolGet.end(), _boolGet.begin(), ::tolower);
 
 					_bigEndian = _boolGet == "true" ? true : false;
