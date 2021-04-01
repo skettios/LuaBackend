@@ -25,12 +25,12 @@ void _execute(future<void> futureObj)
 
 int main()
 {
-	cout << "================================" << "\n";
-	cout << "==== LuaBackend | v0.1 BETA ====" << "\n";
-	cout << "=== Copyright 2021 - TopazTK ===" << "\n";
-	cout << "================================" << "\n";
-	cout << "== Compatible with LuaEngine. ==" << "\n";
-	cout << "================================" << "\n\n";
+	cout << "======================================" << "\n";
+	cout << "====== LuaBackend | v0.1 BETA =======" << "\n";
+	cout << "===== Copyright 2021 - TopazTK ======" << "\n";
+	cout << "=====================================" << "\n";
+	cout << "== Compatible with LuaEngine v2.5! ==" << "\n";
+	cout << "=====================================" << "\n\n";
 
 
 	string _currPath = filesystem::current_path().u8string();
@@ -131,7 +131,15 @@ int main()
 				cout << "\n" << "MESSAGE: Executing initialization event handlers..." << "\n\n";
 				for (auto _script : _backend->loadedScripts)
 					if (_script->initFunction)
-						_script->initFunction();
+					{
+						try { _script->initFunction(); }
+						catch(sol::error e) 
+						{ 
+							std::cout << "LUA_EXCEPTION: " << e.what() << std::endl; 
+							string _output;
+							getline(std::cin, _output);
+						}
+					}
 
 				promise<void> exitSignal;
 				future<void> futureObj = exitSignal.get_future();

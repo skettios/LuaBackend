@@ -12,7 +12,7 @@ using namespace sol;
 using namespace std;
 
 using LuaState = sol::state;
-using LuaFunction = sol::function;
+using LuaFunction = sol::protected_function;
 
 class LuaBackend
 {

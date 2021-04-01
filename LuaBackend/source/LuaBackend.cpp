@@ -93,5 +93,5 @@ void LuaBackend::SetFunctions(LuaState* _state)
 
 	_state->set_function("WriteExec", MemoryLib::WriteExec);
 
-	_state->set_function("Print", sol::overload(ConsoleLib::Print<int>, ConsoleLib::Print<std::string>));
+	_state->set_function("ConsolePrint", sol::overload(ConsoleLib::Print<int>, ConsoleLib::Print<string>, ConsoleLib::CompPrint<int>, ConsoleLib::CompPrint<string>));
 }
