@@ -30,65 +30,7 @@ local http = require("LuaSocket/socket.http")
 
 That's it!
 
-<<<<<<< HEAD
 ## How do I use LuaBackend to create a mod myself?
-=======
-## Important Notes to using LuaBackend
-
-- A config file for the game you want to mod must be made. More on that below.
-- All values are unsigned.
-- There is no limit for the amount of scripts loaded at this moment.
-
-## LuaBackend "config.ini" Template
-
-```ini
-  [CONFIG]
-  EXECUTABLE = KINGDOM HEARTS II FINAL MIX.exe
-  BASE_ADDRESS = KINGDOM HEARTS II FINAL MIX.exe+56450E
-  BIG_ENDIAN = false
-  ATTACH = true
-```
-
-- ``EXECUTABLE`` => Name of the executable you want to mod.
-- ``BASE_ADDRESS`` => The base address of the application. Can be static (0x20000000) or can be module's compliment (KINGDOM HEARTS II FINAL MIX.exe+56450E).
-- ``ATTACH`` => Optional. If set to 'true', it will attach to an already running EXE. If not set or 'false', it will launch said executable and attach. If this value is not set or is 'false', LuaBackend must be at the same location as the given EXE.
-- ``BIG_ENDIAN`` => Optional. Data will be written in Big Endian if set tu 'true'. Required for RPCS3.
-
-## LuaBackend Preset Configs
-
-In your downloaded ZIP, there will be configs already made for the games you want to use them with. Simply drag one of them out so it's next to the LuaBackend EXE and rename it to ``"config.ini"``.
-
-## LuaBackend Cheatsheet
-
----
-
-### Global Variables
-
-- ``GAME_ID`` => Returns the current game's CRC32 checksum as an integer. Ex: ``0xF266B00B``
-- ``SCRIPT_PATH`` => Returns the path which Lua scripts are loaded from as a string. Ex: ``"C:\Users\Topaz\Desktop\LuaBackend\scripts"``
-- ``CHEATS_PATH`` => Always returns ``"NOT_AVAILABLE"``
-- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``2.5``
-- ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
-
-
-###  ReadXXXX(Address)
-
-Reads a certain value from **Address**. Returns the read value. 
-The "**XXXX**" is a placeholder for the value type.
-List of types available: Byte, Short, Int, Long, Float, String, Boolean
-
-Example:
-```lua
-    local _tempInt = ReadInt(0xDEADB00) -- Read an integer from address 0xDEADB00
-    local _tempByte = ReadByte(0xB007555) -- Read a byte from address 0xB007555
-```
-
-### WriteXXXX(Address, Value)
-
-Writes **Value** to **Address**. 
-The "**XXXX**" is a placeholder for the value type.
-List of types available: Byte, Short, Int, Long, Float, String, Boolean
->>>>>>> 18e102c2c2a74def50bebda10b7959aed629d31e
 
 Create a new lua file inside of the **scripts** folder. Any number of scripts and any name is fine.
 Inside the file, copy and paste this snippet:
