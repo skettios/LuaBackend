@@ -19,7 +19,7 @@ public static extern int ExecuteLUA();
 // LOCATION: EXE -> AxaFormBase -> BaseSimpleForm.createInstance()
 // STARTING: Line #09
 
-string _scrFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\KINGDOM HEARTS HD 1.5+2.5 ReMIX\\scripts";
+string _scrFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "\\KINGDOM HEARTS HD 1.5+2.5 ReMIX\\scripts";
 
 CancelSource = new CancellationTokenSource();
 LuaToken = CancelSource.Token; 
@@ -28,11 +28,11 @@ if (File.Exists("LuaBackend.dll"))
 {
     if (!Directory.Exists(_scrFolder))
         MessageBox.Show("The \"" + _scrFolder + "\" folder was not found.\nLuaEngine will not operate.", 
-                        "KINGDOM HEARTS II FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        "KINGDOM HEARTS Birth by Sleep FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
     else
     {
-        long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x56450E;
+        long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x60E334;
         
         LuaTask = Task.Factory.StartNew(delegate()
         {

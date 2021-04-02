@@ -28,11 +28,11 @@ if (File.Exists("LuaBackend.dll"))
 {
     if (!Directory.Exists(_scrFolder))
         MessageBox.Show("The \"" + _scrFolder + "\" folder was not found.\nLuaEngine will not operate.", 
-                        "KINGDOM HEARTS II FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        "KINGDOM HEARTS FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
     else
     {
-        long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x56450E;
+        long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x3A0606;
         
         LuaTask = Task.Factory.StartNew(delegate()
         {
