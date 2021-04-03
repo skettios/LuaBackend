@@ -1,4 +1,4 @@
-## LuaBackend Cheatsheet v2.7
+## LuaBackend Cheatsheet v2.80
 
 ---
 
@@ -7,7 +7,7 @@
 - ``GAME_ID`` => Returns the current game's CRC32 checksum as an integer. This checksum is generated from the process name at this moment.
 - ``SCRIPT_PATH`` => Returns the path which Lua scripts are loaded from as a string. Ex: ``"C:\Users\Topaz\Desktop\LuaBackend\scripts"``
 - ``CHEATS_PATH`` => Always returns ``"NOT_AVAILABLE"``
-- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``2.7``
+- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``2.8``
 - ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
 
 ### Read\[XXXX\](Address)
@@ -132,15 +132,6 @@ Example:
 ```lua
     WriteExec(0x00FBAAD, 0x15) -- Writes 0x15 to EXE_NAME.exe+0x00FBAAD.
 
-```
-
-### ConsolePrint(Message)
-
-Prints unto the console. Compatible with LuaEngine's implementation, but lacking in color.
-
-Example:
-```lua
-    ConsolePrint("Howdy partner?") -- Prints to the Console: "Howdy partner?".
 ```
 
 #### * Any functions present in this document signify compatibility with the latest version. Any function absent in this document is no longer supported and should be considered obsolete.

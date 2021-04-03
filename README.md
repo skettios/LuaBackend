@@ -3,7 +3,8 @@
 
 ## What is LuaBackend?
 
-LuaBackend is a standalone script interpreter for PC games. It attaches itself to the PC application and executes Lua scripts.    
+LuaBackend is a standalone script interpreter for PC games. It attaches itself to the PC application and executes Lua scripts. 
+It is 95% compatible with it's sister, LuaEngine for PCSX2-EX.   
 
 There are two different LuaBackend versions:
  - LuaBackendEXE: External, attaches to any process.
@@ -19,7 +20,7 @@ you would need to drop those folders to that "**scripts**" folder as well.
 ## How do I use libraries made for Lua with LuaBackend?
 
 The libraries you would need to use must be 5.4 compliant. In addition, if the libraries need to be compiled, they must be compiled
-for x80_64 and with Lua 5.4 with the MSVC 2019 compiler.
+for x86_64 and with Lua 5.4 with the MSVC 2019 compiler.
 
 Put the libraries on the "**io_packages**" folder in the "**scripts**" folder. To reference them, you can then use the ``require`` command.
 Exampe being, if I want to use ``socket.http`` from LuaSocket, which I put in ``scripts/io_packages/LuaSocket/``, I would need to do:
