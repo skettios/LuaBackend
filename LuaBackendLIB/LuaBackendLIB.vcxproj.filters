@@ -24,9 +24,6 @@
     <ClInclude Include="include\MemoryLib.h">
       <Filter>Headers\Backend</Filter>
     </ClInclude>
-    <ClInclude Include="include\ConsoleLib.h">
-      <Filter>Headers\Backend</Filter>
-    </ClInclude>
     <ClInclude Include="include\CRC.h">
       <Filter>Headers\External</Filter>
     </ClInclude>

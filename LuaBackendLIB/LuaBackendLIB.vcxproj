@@ -85,7 +85,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ConsoleLib.h" />
     <ClInclude Include="include\CRC.h" />
     <ClInclude Include="include\LuaBackend.h" />
     <ClInclude Include="include\MemoryLib.h" />

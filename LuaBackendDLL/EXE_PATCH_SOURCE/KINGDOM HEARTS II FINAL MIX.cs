@@ -10,11 +10,17 @@ public static CancellationTokenSource CancelSource;
 public static CancellationToken LuaToken;
 public static Task LuaTask;
 
-[DllImport("LuaBackend.dll", CallingConvention =CallingConvention.Cdecl)]
+[DllImport("LuaBackend.dll", CallingConvention = CallingConvention.Cdecl)]
 public static extern int EntryLUA(int InputID, IntPtr InputHandle, ulong InputAddress, string InputPath);
 
-[DllImport("LuaBackend.dll", CallingConvention =CallingConvention.Cdecl)]
+[DllImport("LuaBackend.dll", CallingConvention = CallingConvention.Cdecl)]
 public static extern int ExecuteLUA();
+
+[DllImport("LuaBackend.dll", CallingConvention = CallingConvention.Cdecl)]
+public static extern bool CheckLUA();
+
+[DllImport("LuaBackend.dll", CallingConvention = CallingConvention.Cdecl)]
+public static extern int VersionLUA();
 
 // LOCATION: EXE -> AxaFormBase -> BaseSimpleForm.createInstance()
 // STARTING: Line #09
@@ -32,18 +38,36 @@ if (File.Exists("LuaBackend.dll"))
 
     else
     {
-        long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x56450E;
-        
-        LuaTask = Task.Factory.StartNew(delegate()
+        if (VersionLUA() > 128)
+            MessageBox.Show("The LuaEngine DLL is too new for this executable.\nLuaEngine will not operate until this EXE is updated.", 
+                            "KINGDOM HEARTS II FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        else if (VersionLUA() < 128)
+            MessageBox.Show("The LuaEngine DLL is too old for this executable.\nLuaEngine will not operate until the DLL is updated.", 
+                "KINGDOM HEARTS II FINAL MIX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        else
         {
-            if (EntryLUA(Process.GetCurrentProcess().Id, Process.GetCurrentProcess().Handle, (ulong)_addr, _scrFolder) == 0)
+            long _addr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64() + 0x56450E;
+            
+            LuaTask = Task.Factory.StartNew(delegate()
             {
-                while (!LuaToken.IsCancellationRequested)
+                if (EntryLUA(Process.GetCurrentProcess().Id, Process.GetCurrentProcess().Handle, (ulong)_addr, _scrFolder) == 0)
                 {
-                    ExecuteLUA();
+                    while (!LuaToken.IsCancellationRequested)
+                    {
+                        if (!CheckLUA())
+                        {
+                            Console.Clear();
+                            EntryLUA(Process.GetCurrentProcess().Id, Process.GetCurrentProcess().Handle, (ulong)_addr, _scrFolder);
+                        }
+
+                        else
+                            ExecuteLUA();
+                    }
                 }
-            }
-        }, LuaToken);
+            }, LuaToken);
+        }
     }
 }
 

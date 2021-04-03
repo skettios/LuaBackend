@@ -375,12 +375,12 @@ class MemoryLib
 
     static uint64_t GetPointer(uint64_t Address, uint64_t Offset)
     {
-        int _temp = ReadLong(Address);
+        uint64_t _temp = ReadLong(Address);
         return _temp + Offset;
     }
     static uint64_t GetPointerAbsolute(uint64_t Address, uint64_t Offset)
     {
-        int _temp = ReadLongAbsolute(Address);
+        uint64_t _temp = ReadLongAbsolute(Address);
         return _temp + Offset;
     }
 };

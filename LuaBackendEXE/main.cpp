@@ -1,3 +1,4 @@
+#include <chrono>
 #include <thread>
 #include <future>
 #include <iostream>
@@ -11,11 +12,12 @@
 
 using namespace std;
 using namespace mINI;
+
 LuaBackend* _backend = nullptr;
 
 void _execute(future<void> futureObj)
 {
-	while (futureObj.wait_for(chrono::milliseconds(1)) == future_status::timeout)
+	while (futureObj.wait_for(chrono::milliseconds(16)) == future_status::timeout)
 	{
 		for (auto _script : _backend->loadedScripts)
 			if (_script->frameFunction)
@@ -26,10 +28,10 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "======= LuaBackend | v0.3 BETA =======" << "\n";
+	cout << "======= LuaBackend | v0.4 BETA =======" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
-	cout << "=== Compatible with LuaEngine v2.7 ===" << "\n";
+	cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
 	cout << "========== External Version ==========" << "\n";
 	cout << "======================================" << "\n\n";
 

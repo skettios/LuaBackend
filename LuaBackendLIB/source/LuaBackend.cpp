@@ -46,7 +46,7 @@ LuaBackend::LuaBackend(const char* ScrPath)
 		string _pathFull = MemoryLib::PName;
 		auto _pathExe = _pathFull.substr(_pathFull.find_last_of("\\") + 1);
 
-		_script->luaState["ENGINE_VERSION"] = 2.7F;
+		_script->luaState["ENGINE_VERSION"] = 2.81;
 		_script->luaState["ENGINE_TYPE"] = "BACKEND";
 		_script->luaState["GAME_ID"] = CRC::Calculate(_pathExe.c_str(), _pathExe.length(), CRC::CRC_32());
 
@@ -101,8 +101,6 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteExec", MemoryLib::WriteExec);
 	_state->set_function("GetPointer", MemoryLib::GetPointer);
 
-	// This block is stupid.
-	// Blame sol3 for this.
 	_state->set_function("ReadByteA", MemoryLib::ReadByte);
 	_state->set_function("ReadShortA", MemoryLib::ReadShort);
 	_state->set_function("ReadIntA", MemoryLib::ReadInt);
@@ -120,6 +118,4 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteStringA", MemoryLib::WriteString);
 	_state->set_function("WriteExecA", MemoryLib::WriteExec);
 	_state->set_function("GetPointerA", MemoryLib::GetPointerAbsolute);
-
-	_state->set_function("ConsolePrint", sol::overload(ConsoleLib::Print, ConsoleLib::ColorPrint));
 }

@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <windows.h>
 #include <filesystem>
@@ -13,6 +14,7 @@ extern "C"
 	using namespace mINI;
 
 	LuaBackend* _backend = nullptr;
+	chrono::high_resolution_clock::time_point _clock;
 
 	int __declspec(dllexport) EntryLUA(int ProcessID, HANDLE ProcessH, uint64_t TargetAddress, const char* ScriptPath)
 	{
@@ -20,10 +22,10 @@ extern "C"
 		auto _conRedirect = freopen("CONOUT$", "w", stdout);
 
 		cout << "======================================" << "\n";
-		cout << "======= LuaBackend | v0.3 BETA =======" << "\n";
+		cout << "======= LuaBackend | v0.4 BETA =======" << "\n";
 		cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 		cout << "======================================" << "\n";
-		cout << "=== Compatible with LuaEngine v2.7 ===" << "\n";
+		cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
 		cout << "========== Embedded Version ==========" << "\n";
 		cout << "======================================" << "\n\n";
 
@@ -45,14 +47,38 @@ extern "C"
 				_script->initFunction();
 
 		cout << "MESSAGE: Initialization complete!" << "\n";
+		_clock = chrono::high_resolution_clock::now();
 
 		return 0;
 	}
 
 	void __declspec(dllexport) ExecuteLUA()
 	{
-		for (auto _script : _backend->loadedScripts)
-			if (_script->frameFunction)
-				_script->frameFunction();
+		auto _currTime = chrono::high_resolution_clock::now();
+		auto _msTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _clock).count();
+
+		if (_msTime > 16)
+		{
+			for (auto _script : _backend->loadedScripts)
+				if (_script->frameFunction)
+					_script->frameFunction();
+
+			_clock = chrono::high_resolution_clock::now();
+		}
+	}
+
+	bool __declspec(dllexport) CheckLUA()
+	{
+		auto _int = MemoryLib::ReadInt(0);
+
+		if (_int == 0)
+			return false;
+
+		return true;
+	}
+
+	int __declspec(dllexport) VersionLUA()
+	{
+		return 128;
 	}
 }
