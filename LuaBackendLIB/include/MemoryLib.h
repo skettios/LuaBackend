@@ -101,6 +101,7 @@ class MemoryLib
         PIdentifier = FindProcessId(wstring(InputName.begin(), InputName.end()));
         PHandle = OpenProcess(PROCESS_ALL_ACCESS, false, PIdentifier);
 
+        GetProcessImageFileNameA(MemoryLib::PHandle, PName, MAX_PATH);
         BaseAddress = InputAddress;
 
         _execAddress = (uint64_t)FindBaseAddr(PHandle, PName);

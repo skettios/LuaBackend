@@ -101,21 +101,20 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteExec", MemoryLib::WriteExec);
 	_state->set_function("GetPointer", MemoryLib::GetPointer);
 
-	_state->set_function("ReadByteA", MemoryLib::ReadByte);
-	_state->set_function("ReadShortA", MemoryLib::ReadShort);
-	_state->set_function("ReadIntA", MemoryLib::ReadInt);
-	_state->set_function("ReadFloatA", MemoryLib::ReadFloat);
-	_state->set_function("ReadBooleanA", MemoryLib::ReadBool);
-	_state->set_function("ReadArrayA", MemoryLib::ReadBytes);
-	_state->set_function("ReadStringA", MemoryLib::ReadString);
+	_state->set_function("ReadByteA", MemoryLib::ReadByteAbsolute);
+	_state->set_function("ReadShortA", MemoryLib::ReadShortAbsolute);
+	_state->set_function("ReadIntA", MemoryLib::ReadIntAbsolute);
+	_state->set_function("ReadFloatA", MemoryLib::ReadFloatAbsolute);
+	_state->set_function("ReadBooleanA", MemoryLib::ReadBoolAbsolute);
+	_state->set_function("ReadArrayA", MemoryLib::ReadBytesAbsolute);
+	_state->set_function("ReadStringA", MemoryLib::ReadStringAbsolute);
 
-	_state->set_function("WriteByteA", MemoryLib::WriteByte);
-	_state->set_function("WriteShortA", MemoryLib::WriteShort);
-	_state->set_function("WriteIntA", MemoryLib::WriteInt);
-	_state->set_function("WriteFloatA", MemoryLib::WriteFloat);
-	_state->set_function("WriteBooleanA", MemoryLib::WriteBool);
-	_state->set_function("WriteArrayA", MemoryLib::WriteBytes);
-	_state->set_function("WriteStringA", MemoryLib::WriteString);
-	_state->set_function("WriteExecA", MemoryLib::WriteExec);
+	_state->set_function("WriteByteA", MemoryLib::WriteByteAbsolute);
+	_state->set_function("WriteShortA", MemoryLib::WriteShortAbsolute);
+	_state->set_function("WriteIntA", MemoryLib::WriteIntAbsolute);
+	_state->set_function("WriteFloatA", MemoryLib::WriteFloatAbsolute);
+	_state->set_function("WriteBooleanA", MemoryLib::WriteBoolAbsolute);
+	_state->set_function("WriteArrayA", MemoryLib::WriteBytesAbsolute);
+	_state->set_function("WriteStringA", MemoryLib::WriteStringAbsolute);
 	_state->set_function("GetPointerA", MemoryLib::GetPointerAbsolute);
 }

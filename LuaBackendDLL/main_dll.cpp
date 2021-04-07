@@ -22,7 +22,7 @@ extern "C"
 		auto _conRedirect = freopen("CONOUT$", "w", stdout);
 
 		cout << "======================================" << "\n";
-		cout << "======= LuaBackend | v0.4 BETA =======" << "\n";
+		cout << "======= LuaBackend | v0.5 BETA =======" << "\n";
 		cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 		cout << "======================================" << "\n";
 		cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
