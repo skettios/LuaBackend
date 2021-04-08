@@ -28,7 +28,7 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "======= LuaBackend | v0.5 BETA =======" << "\n";
+	cout << "======= LuaBackend | v0.6 BETA =======" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
 	cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
@@ -166,6 +166,7 @@ int main()
 					{
 						exitSignal.set_value();
 						_frameThread.join();
+						system("cls"); // This is not ideal but, too bad! This shit is hard in C++.
 						main();
 					}
 				}

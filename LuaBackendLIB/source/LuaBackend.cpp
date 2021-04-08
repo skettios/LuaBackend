@@ -86,6 +86,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("ReadByte", MemoryLib::ReadByte);
 	_state->set_function("ReadShort", MemoryLib::ReadShort);
 	_state->set_function("ReadInt", MemoryLib::ReadInt);
+	_state->set_function("ReadLong", MemoryLib::ReadLong);
 	_state->set_function("ReadFloat", MemoryLib::ReadFloat);
 	_state->set_function("ReadBoolean", MemoryLib::ReadBool);
 	_state->set_function("ReadArray", MemoryLib::ReadBytes);
@@ -94,6 +95,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteByte", MemoryLib::WriteByte);
 	_state->set_function("WriteShort", MemoryLib::WriteShort);
 	_state->set_function("WriteInt", MemoryLib::WriteInt);
+	_state->set_function("WriteLong", MemoryLib::WriteLong);
 	_state->set_function("WriteFloat", MemoryLib::WriteFloat);
 	_state->set_function("WriteBoolean", MemoryLib::WriteBool);
 	_state->set_function("WriteArray", MemoryLib::WriteBytes);
@@ -104,6 +106,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("ReadByteA", MemoryLib::ReadByteAbsolute);
 	_state->set_function("ReadShortA", MemoryLib::ReadShortAbsolute);
 	_state->set_function("ReadIntA", MemoryLib::ReadIntAbsolute);
+	_state->set_function("ReadLongA", MemoryLib::ReadLongAbsolute);
 	_state->set_function("ReadFloatA", MemoryLib::ReadFloatAbsolute);
 	_state->set_function("ReadBooleanA", MemoryLib::ReadBoolAbsolute);
 	_state->set_function("ReadArrayA", MemoryLib::ReadBytesAbsolute);
@@ -112,6 +115,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteByteA", MemoryLib::WriteByteAbsolute);
 	_state->set_function("WriteShortA", MemoryLib::WriteShortAbsolute);
 	_state->set_function("WriteIntA", MemoryLib::WriteIntAbsolute);
+	_state->set_function("WriteLongA", MemoryLib::WriteLongAbsolute);
 	_state->set_function("WriteFloatA", MemoryLib::WriteFloatAbsolute);
 	_state->set_function("WriteBooleanA", MemoryLib::WriteBoolAbsolute);
 	_state->set_function("WriteArrayA", MemoryLib::WriteBytesAbsolute);
