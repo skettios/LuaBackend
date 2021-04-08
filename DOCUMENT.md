@@ -10,9 +10,9 @@
 - ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``2.8``
 - ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
 
-### Read\[XXXX\](Address)
+### Read\[XXXX\](Address) / ReadString(Address, Length)
 
-Reads a certain value from **Address** calculated relative to the base address. Returns the read value. 
+Reads a certain value from absolute **Address**. Returns the read value. If reading a String, length must also be declared.  
 The "**XXXX**" is a placeholder for the value type.  
   
 List of types available: Byte, Short, Int, Long, Float, String, Boolean
@@ -36,9 +36,9 @@ Example:
     WriteBoolean(0xB007555, true) -- Write true to BaseAddress+0xB007555
 ```
 
-###  Read\[XXXX\]A(Address) / ReadString(Address, Length)
+###  Read\[XXXX\]A(Address) / ReadStringA(Address, Length)
 
-Reads a certain value from absolute **Address**. Returns the read value. If reading a String, length must also be declared.
+Reads a certain value from absolute **Address**. Returns the read value. If reading a String, length must also be declared.  
 You generally only need this for absolute operations. Most of the time, you should not use this.  
 The "**\[XXXX\]**" is a placeholder for the value type.  
   
