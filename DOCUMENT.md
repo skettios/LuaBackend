@@ -36,13 +36,13 @@ Example:
     WriteBoolean(0xB007555, true) -- Write true to BaseAddress+0xB007555
 ```
 
-###  Read\[XXXX\]A(Address)
+###  Read\[XXXX\]A(Address) / ReadString(Address, Length)
 
-Reads a certain value from absolute **Address**. Returns the read value.  
+Reads a certain value from absolute **Address**. Returns the read value. If reading a String, length must also be declared.
 You generally only need this for absolute operations. Most of the time, you should not use this.  
 The "**\[XXXX\]**" is a placeholder for the value type.  
   
-List of types available: Byte, Short, Int, Long, Float, String, Boolean
+List of types available: Byte, Short, Int, Long, Float, Boolean
 
 Example:
 ```lua
