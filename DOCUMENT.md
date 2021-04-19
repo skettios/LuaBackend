@@ -135,7 +135,7 @@ Example:
 
 ### UpdateDetails(Text)
 
-Updates the details of the rich presence application initialized with InitializeRPC to say **Text*.
+Updates the details of the rich presence application initialized with InitializeRPC to say **Text**.
 
 Example:
 ```lua
