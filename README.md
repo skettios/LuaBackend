@@ -58,3 +58,11 @@ In INSTALL.md, you can find how to install each version of LuaBackend.
 ## Important Notes to using LuaBackend
 - All values are unsigned.
 - There is no limit for the amount of scripts loaded at this moment.
+
+## External Libraries
+
+https://github.com/d-bahr/CRCpp
+https://github.com/pulzed/mINI
+http://www.lua.org/
+https://github.com/ThePhD/sol2
+https://github.com/discord/discord-rpc
