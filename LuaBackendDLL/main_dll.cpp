@@ -85,7 +85,7 @@ extern "C"
 				_script->initFunction();
 
 		cout << "MESSAGE: Initialization complete!" << "\n";
-		cout << "MESSAGE: Press 'F1' to reload all scripts, press 'F2' to toggle the console." << "\n";
+		cout << "MESSAGE: Press 'F1' to reload all scripts, press 'F2' to toggle the console, press 'F3' to set execution frequency." << "\n";
 
 		_msClock = chrono::high_resolution_clock::now();
 		_sClock = chrono::high_resolution_clock::now();
