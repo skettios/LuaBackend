@@ -13,7 +13,7 @@ There are two versions of LuaBackend that you can install. Please follow this do
 ### Internal LuaBackend [DLL]
 - Download ``LuaBackend.7z`` from the Releases tab.
 - Extract the contents of ``LuaBackend.7z/Internal`` to a folder.
-- Copy the DLL inside the folder to your game's EXE location.
+- Copy both the DLLs inside the folder to your game's EXE location.
 - If your game is supported, it will have a patch file for it in the ``patches`` folder of the folder you extracted. Patch your game's EXE with it using [this tool](https://www.marcrobledo.com/RomPatcher.js/) and replace that EXE with the patched version.
 - At this point, LuaBackend is installed internally. Launch the game. The location you need to put your script files into will be told to you on launch if the location does not exist (So, ideally, only once.)
 
