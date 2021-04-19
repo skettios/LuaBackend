@@ -46,7 +46,7 @@ LuaBackend::LuaBackend(const char* ScrPath)
 		string _pathFull = MemoryLib::PName;
 		auto _pathExe = _pathFull.substr(_pathFull.find_last_of("\\") + 1);
 
-		_script->luaState["ENGINE_VERSION"] = 2.81;
+		_script->luaState["ENGINE_VERSION"] = 3;
 		_script->luaState["ENGINE_TYPE"] = "BACKEND";
 		_script->luaState["GAME_ID"] = CRC::Calculate(_pathExe.c_str(), _pathExe.length(), CRC::CRC_32());
 
