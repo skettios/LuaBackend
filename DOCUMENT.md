@@ -7,7 +7,7 @@
 - ``GAME_ID`` => Returns the current game's CRC32 checksum as an integer. This checksum is generated from the process name at this moment.
 - ``SCRIPT_PATH`` => Returns the path which Lua scripts are loaded from as a string. Ex: ``"C:\Users\Topaz\Desktop\LuaBackend\scripts"``
 - ``CHEATS_PATH`` => Always returns ``"NOT_AVAILABLE"``
-- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``2.8``
+- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``3``
 - ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
 
 ### Read\[XXXX\](Address) / ReadString(Address, Length)
@@ -122,6 +122,51 @@ You generally only need this for absolute operations. Most of the time, you shou
 Example:
 ```lua
     local _tempPointer = GetPointerA(0xBEEFDAD, 0x15) -- Reads the value at 0xBEEFDAD and adds 0x15 to it.
+```
+
+### InitializeRPC(ApplicationID)
+
+Initializes and hooks a Discord Application with **ApplicationID**, for Rich Presence control.
+
+Example:
+```lua
+    InitializeRPC("833511404274974740") -- Initiaizes Discord Application "833511404274974740".
+```
+
+### UpdateDetails(Text)
+
+Updates the details of the rich presence application initialized with InitializeRPC to say **Text*.
+
+Example:
+```lua
+    UpdateDetails("Hello World!") -- Updates the details section of the RPC to say "Hello World!".
+```
+
+### UpdateState(Text)
+
+Updates the state of the rich presence application initialized with InitializeRPC to say **Text**.
+
+Example:
+```lua
+    UpdateState("Hello World!") -- Updates the state section of the RPC to say "Hello World!".
+```
+
+### UpdateLImage(Key, Text)
+
+Updates the large image of the rich presence to be the image with **Key**. And it's text is updates to say **Text**.
+
+Example:
+```lua
+    UpdateLImage("image", "This is Image!") -- Updates the large image to "image" and it's text to "This is Image!"
+```
+
+### UpdateSImage(Key, Text)
+
+Updates the small image of the rich presence to be the image with **Key**. And it's text is updates to say **Text**.
+
+Example:
+```lua
+    UpdateSImage("imagetwo", "This too, is Image!") -- Updates the small image to "imagetwo" and it's text to "This too, is Image!"
 ```
 
 ### WriteExec(Address, Value) - [LuaBackend Only]
