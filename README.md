@@ -61,8 +61,8 @@ In INSTALL.md, you can find how to install each version of LuaBackend.
 
 ## External Libraries
 
-https://github.com/d-bahr/CRCpp  
-https://github.com/pulzed/mINI  
 http://www.lua.org/  
+https://github.com/pulzed/mINI  
 https://github.com/ThePhD/sol2  
+https://github.com/d-bahr/CRCpp  
 https://github.com/discord/discord-rpc  
