@@ -5,7 +5,6 @@
 
 #include <MemoryLib.h>
 #include <LuaBackend.h>
-
 #include <mIni/ini.h>
 
 extern "C"
@@ -14,12 +13,15 @@ extern "C"
 	using namespace mINI;
 
 	bool _funcOneState = true;
-	bool _funcTwoState = true;
+	bool _funcTwoState = true; 
+	bool _funcThreeState = true;
 
 	string _scrPath;
 
+	int _refresh = 16;
 	bool _showConsole = false;
 	bool _requestedReset = false;
+	
 	LuaBackend* _backend = nullptr;
 
 	chrono::high_resolution_clock::time_point _sClock;
@@ -56,10 +58,10 @@ extern "C"
 		ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 		cout << "======================================" << "\n";
-		cout << "======= LuaBackend | v0.6 BETA =======" << "\n";
+		cout << "======= LuaBackend | v0.7 BETA =======" << "\n";
 		cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 		cout << "======================================" << "\n";
-		cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
+		cout << "=== Compatible with LuaEngine v3.0 ===" << "\n";
 		cout << "========== Embedded Version ==========" << "\n";
 		cout << "======================================" << "\n\n";
 
@@ -67,6 +69,7 @@ extern "C"
 		_scrPath = string(ScriptPath);
 
 		MemoryLib::ExternProcess(ProcessID, ProcessH, TargetAddress);
+
 		_backend = new LuaBackend(ScriptPath);
 
 		if (_backend->loadedScripts.size() == 0)
@@ -96,8 +99,30 @@ extern "C"
 		auto _msTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _msClock).count();
 		auto _sTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _sClock).count();
 
-		if (_msTime > 16)
+		if (_msTime > _refresh)
 		{
+			if (GetKeyState(VK_F3) & 0x8000 && _funcThreeState)
+			{
+				switch (_refresh)
+				{
+				    case 16:
+				    	_refresh = 8;
+						cout << "MESSAGE: Frequency set to 125FPS." << "\n";
+				    	break;
+				    case 8:
+			    		_refresh = 4;
+						cout << "MESSAGE: Frequency set to 250FPS." << "\n";
+				    	break;
+				    case 4:
+				    	_refresh = 16;
+						cout << "MESSAGE: Frequency set to 62.5FPS." << "\n";
+				    	break;
+				}
+
+				_sTime = 0;
+				_funcThreeState = false;
+				_sClock = chrono::high_resolution_clock::now();
+			}
 			if (GetKeyState(VK_F2) & 0x8000 && _funcTwoState)
 			{
 				if (_showConsole)
@@ -140,6 +165,7 @@ extern "C"
 		{
 			_funcOneState = true;
 			_funcTwoState = true;
+			_funcThreeState = true;
 			_sClock = chrono::high_resolution_clock::now();
 		}
 	}

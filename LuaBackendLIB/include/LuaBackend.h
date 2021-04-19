@@ -7,6 +7,7 @@
 
 #include <MemoryLib.h>
 #include <ConsoleLib.h>
+#include <DCInstance.h>
 
 using namespace sol;
 using namespace std;

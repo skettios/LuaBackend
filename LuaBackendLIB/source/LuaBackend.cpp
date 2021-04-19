@@ -121,4 +121,10 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("WriteArrayA", MemoryLib::WriteBytesAbsolute);
 	_state->set_function("WriteStringA", MemoryLib::WriteStringAbsolute);
 	_state->set_function("GetPointerA", MemoryLib::GetPointerAbsolute);
+
+	_state->set_function("InitializeRPC", DCInstance::InitializeRPC);
+	_state->set_function("UpdateDetails", DCInstance::UpdateDetails);
+	_state->set_function("UpdateState", DCInstance::UpdateState);
+	_state->set_function("UpdateLImage", DCInstance::UpdateLImage);
+	_state->set_function("UpdateSImage", DCInstance::UpdateSImage);
 }

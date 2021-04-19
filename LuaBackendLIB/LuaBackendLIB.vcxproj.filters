@@ -16,6 +16,9 @@
     <Filter Include="Sources\Backend">
       <UniqueIdentifier>{f20dbeec-5ea2-481c-b3a3-397bf77f097a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External">
+      <UniqueIdentifier>{d7f0aa77-38f3-4dab-a36c-0b30c38d0c65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\LuaBackend.h">
@@ -27,10 +30,16 @@
     <ClInclude Include="include\CRC.h">
       <Filter>Headers\External</Filter>
     </ClInclude>
+    <ClInclude Include="include\DCInstance.h">
+      <Filter>Headers\External</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\LuaBackend.cpp">
       <Filter>Sources\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DCInstance.cpp">
+      <Filter>Sources\External</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

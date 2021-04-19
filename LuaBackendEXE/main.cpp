@@ -13,11 +13,12 @@
 using namespace std;
 using namespace mINI;
 
+int _refresh = 16;
 LuaBackend* _backend = nullptr;
 
 void _execute(future<void> futureObj)
 {
-	while (futureObj.wait_for(chrono::milliseconds(16)) == future_status::timeout)
+	while (futureObj.wait_for(chrono::milliseconds(_refresh)) == future_status::timeout)
 	{
 		for (auto _script : _backend->loadedScripts)
 			if (_script->frameFunction)
@@ -28,10 +29,10 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "======= LuaBackend | v0.6 BETA =======" << "\n";
+	cout << "======= LuaBackend | v0.7 BETA =======" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
-	cout << "=== Compatible with LuaEngine v2.8 ===" << "\n";
+	cout << "=== Compatible with LuaEngine v3.0 ===" << "\n";
 	cout << "========== External Version ==========" << "\n";
 	cout << "======================================" << "\n\n";
 
@@ -62,9 +63,27 @@ int main()
 				bool _bigEndian = false;
 				bool _attachOn = false;
 
+				if (_table.has("REFRESH"))
+				{
+					auto _fps = atoi(_table["REFRESH"].c_str());
+
+					switch (_fps)
+					{
+					case 60:
+						_refresh = 16;
+						break;
+					case 120:
+						_refresh = 8;
+						break;
+					case 240:
+						_refresh = 4;
+						break;
+					}
+				}
+
 				if (_table.has("BIG_ENDIAN"))
 				{
-					string _boolGet = _table["BIG_ENDIAN"];
+					auto _boolGet = _table["BIG_ENDIAN"];
 					transform(_boolGet.begin(), _boolGet.end(), _boolGet.begin(), ::tolower);
 
 					_bigEndian = _boolGet == "true" ? true : false;
@@ -72,7 +91,7 @@ int main()
 
 				if (_table.has("ATTACH"))
 				{
-					string _boolGet = _table["ATTACH"];
+					auto _boolGet = _table["ATTACH"];
 					transform(_boolGet.begin(), _boolGet.end(), _boolGet.begin(), ::tolower);
 
 					_attachOn = _boolGet == "true" ? true : false;
@@ -111,7 +130,7 @@ int main()
 
 				if (_addr.find(_exec) != std::string::npos)
 				{
-					string _offStr = _addr;
+					auto _offStr = _addr;
 					_offStr.erase(0, _offStr.find('+') + 1);
 
 					uint64_t _offset;
