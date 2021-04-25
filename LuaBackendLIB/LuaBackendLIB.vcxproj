@@ -89,6 +89,7 @@
     <ClInclude Include="include\DCInstance.h" />
     <ClInclude Include="include\LuaBackend.h" />
     <ClInclude Include="include\MemoryLib.h" />
+    <ClInclude Include="include\Operator32Lib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\DCInstance.cpp" />
