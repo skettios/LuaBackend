@@ -2,13 +2,16 @@
 
 ---
 
-### Global Variables
+## Global Variables
 
 - ``GAME_ID`` => Returns the current game's CRC32 checksum as an integer. This checksum is generated from the process name at this moment.
+- ``LUA_NAME`` => The name of your Lua script, used by functions such as ConsolePrint. It is the filename of your Lua by default.
 - ``SCRIPT_PATH`` => Returns the path which Lua scripts are loaded from as a string. Ex: ``"C:\Users\Topaz\Desktop\LuaBackend\scripts"``
 - ``CHEATS_PATH`` => Always returns ``"NOT_AVAILABLE"``
 - ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``3``
 - ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
+
+## Memory Functions
 
 ### Read\[XXXX\](Address) / ReadString(Address, Length)
 
@@ -123,6 +126,42 @@ Example:
 ```lua
     local _tempPointer = GetPointerA(0xBEEFDAD, 0x15) -- Reads the value at 0xBEEFDAD and adds 0x15 to it.
 ```
+
+## General I/O Functions
+
+### ULShift32(Base, Shift)
+
+Shifts **Base** left by **Shift** abont of bytes. Only exists for 32-bit applications.
+
+Example:
+```lua
+    ULShift32(4294967295, 8) -- Shifts 4294967295 left by 8 bytes without an overflow to 64-bits.
+```
+
+### ConsolePrint(Text, Type = NULL)
+
+Prints **Text** to the console, in the format given below. 
+Unless **Type** is declared, nothing will prefix the message.
+
+**Type** can be the following:
+- 0 = MESSAGE
+- 1 = SUCCESS
+- 2 = WARNING
+- 3 = ERROR
+
+Format:
+```
+[LUA_NAME] TYPE: Text
+```
+
+Example:
+```lua
+    LUA_NAME = "SomeDudeScript"
+    ConsolePrint("GET UP ON THE HYDRA'S BACK!") -- Prints the following: [SomeDudeScript] GET UP ON THE HYDRA'S BACK!
+    ConsolePrint("NICE VIEW FROM UP HERE!", 0) -- Prints the following: [SomeDudeScript] MESSAGE: NICE VIEW FROM UP HERE!
+```
+
+## Discord RPC Functions
 
 ### InitializeRPC(ApplicationID)
 
