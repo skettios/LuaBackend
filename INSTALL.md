@@ -26,6 +26,7 @@ EXECUTABLE = EXE_NAME
 BASE_ADDRESS = EXE_ADDRESS
 BIG_ENDIAN = false
 ATTACH = false
+REFRESH = 60
 ```
 Now, edit the variables according to the below format:
 
@@ -33,4 +34,5 @@ Now, edit the variables according to the below format:
 - ``BASE_ADDRESS`` => The base address of the application. Can be static (0x20000000) or can be module's compliment (KINGDOM HEARTS II FINAL MIX.exe+56450E).
 - ``ATTACH`` => Optional, required for games that require a launcher. If set to ``true``, it will attach to an already running EXE. If not set or set to ``false``, it will launch said executable and attach.  
   If this value is not set or is 'false', LuaBackend must be at the same location as the given EXE.
-- ``BIG_ENDIAN`` => Optional. Data will be written in Big Endian if set tu 'true'. Required for emulators like RPCS3, should not be used with emulators like PPSSPP.
+- ``BIG_ENDIAN`` => Optional. Data will be written in Big Endian if set to 'true'. Required for emulators like RPCS3, should not be used with emulators like PCSX2.
+- ``REFRESH`` => Optional. Determines how frequently the scripts will be run in FPS/hz. ``60`` by default.
