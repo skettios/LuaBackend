@@ -52,12 +52,17 @@ and the "**_OnFrame**" function is executed every frame. So put the things you w
 That is the minimum you would need to have a functioning script. The rest is on you. The scripts in LuaEngine function just as if they were regular Lua scripts.
 Because... they kind of are!  
 
-In DOCUMENT.md, you can find the cheatsheet to all LuaBackend specific functions.  
-In INSTALL.md, you can find how to install each version of LuaBackend.
+In **DOCUMENT.md**, you can find the cheatsheet to all LuaBackend specific functions.  
+In **INSTALL.md**, you can find how to install each version of LuaBackend.
 
 ## Important Notes to using LuaBackend
+
 - All values are unsigned.
 - There is no limit for the amount of scripts loaded at this moment.
+
+## Credits
+
+- @Y2K-x for config.h and config.cpp files.
 
 ## External Libraries
 
