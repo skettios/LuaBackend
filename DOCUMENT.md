@@ -1,4 +1,4 @@
-## LuaBackend Cheatsheet v2.80
+## LuaBackend Cheatsheet v4.00
 
 ---
 
@@ -8,7 +8,7 @@
 - ``LUA_NAME`` => The name of your Lua script, used by functions such as ConsolePrint. It is the filename of your Lua by default.
 - ``SCRIPT_PATH`` => Returns the path which Lua scripts are loaded from as a string. Ex: ``"C:\Users\Topaz\Desktop\LuaBackend\scripts"``
 - ``CHEATS_PATH`` => Always returns ``"NOT_AVAILABLE"``
-- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``3``
+- ``ENGINE_VERSION`` => Returns the LuaBackend's engine version as a float. Ex: ``4.1``
 - ``ENGINE_TYPE`` => Always returns ``"BACKEND"``
 
 ## Memory Functions
