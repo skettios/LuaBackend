@@ -36,6 +36,9 @@
     <ClInclude Include="include\Operator32Lib.h">
       <Filter>Headers\Backend</Filter>
     </ClInclude>
+    <ClInclude Include="include\ConsoleLib.h">
+      <Filter>Headers\Backend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\LuaBackend.cpp">

@@ -10,11 +10,13 @@
 #include <Operator32Lib.h>
 #include <DCInstance.h>
 
+
+
 using namespace sol;
 using namespace std;
 
 using LuaState = sol::state;
-using LuaFunction = sol::protected_function;
+using LuaFunction = sol::safe_function;
 
 class LuaBackend
 {
@@ -28,6 +30,7 @@ class LuaBackend
 
 		std::vector<LuaScript*> loadedScripts;
 
+		static int ExceptionHandle(lua_State*, sol::optional<const std::exception&>, sol::string_view);
 		void SetFunctions(LuaState*);
 		LuaBackend(const char*);
 };

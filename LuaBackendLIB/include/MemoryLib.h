@@ -82,15 +82,18 @@ class MemoryLib
         BaseAddress = InputAddress;
     }
 
-    static void ExecuteProcess(string InputName, uint64_t InputAddress, bool InputEndian)
+    static int ExecuteProcess(string InputName, uint64_t InputAddress, bool InputEndian)
     {
         ZeroMemory(&_sInfo, sizeof(_sInfo)); _sInfo.cb = sizeof(_sInfo);
         ZeroMemory(&_pInfo, sizeof(_pInfo));
 
-        CreateProcessA(InputName.c_str(), NULL, NULL, NULL, TRUE, 0, NULL, NULL, &_sInfo, &_pInfo);
+        if (CreateProcessA(InputName.c_str(), NULL, NULL, NULL, TRUE, 0, NULL, NULL, &_sInfo, &_pInfo) == 0)
+            return -1;
 
         BaseAddress = InputAddress;
         _bigEndian = InputEndian;
+
+        return 0;
     };
 
     static bool LatchProcess(string InputName, uint64_t InputAddress, bool InputEndian)
@@ -179,10 +182,24 @@ class MemoryLib
         return _output;
     }
     
-    static void WriteByte(uint64_t Address, uint8_t Input) { WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), &Input, 1, 0); }
+    static void WriteByte(uint64_t Address, uint8_t Input) 
+    { 
+        if (WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), &Input, 1, 0) == 0)
+        {
+            DWORD _protectOld = 0;
+            VirtualProtectEx(PHandle, (void*)(Address + BaseAddress), 256, PAGE_READWRITE, &_protectOld);
+            WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), &Input, 1, 0);
+        }
+    }
+
     static void WriteBytes(uint64_t Address, vector<uint8_t> Input)
     {
-        WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), Input.data(), Input.size(), 0);
+        if (WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), Input.data(), Input.size(), 0) == 0)
+        {
+            DWORD _protectOld = 0;
+            VirtualProtectEx(PHandle, (void*)(Address + BaseAddress), 256, PAGE_READWRITE, &_protectOld);
+            WriteProcessMemory(PHandle, (void*)(Address + BaseAddress), Input.data(), Input.size(), 0);
+        }
     }
     static void WriteShort(uint64_t Address, uint16_t Input)
     {

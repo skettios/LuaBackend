@@ -27,22 +27,28 @@ extern "C"
 	chrono::high_resolution_clock::time_point _sClock;
 	chrono::high_resolution_clock::time_point _msClock;
 
+	void EnterWait()
+	{
+		string _output;
+		getline(std::cin, _output);
+		return;
+	}
+
 	void ResetLUA()
 	{
-		cout << "MESSAGE: Reloading...\n";
-
+		ConsoleLib::MessageOutput("Reloading...\n\n", 0);
 		_backend = new LuaBackend(_scrPath.c_str());
 
 		if (_backend->loadedScripts.size() == 0)
-			cout << "MESSAGE: No scripts found! Reload halted." << "\n";
+			ConsoleLib::MessageOutput("No scripts found! Reload halted!\n\n", 3);
 
-		cout << "MESSAGE: Executing initialization event handlers..." << "\n\n";
+		ConsoleLib::MessageOutput("Executing initialization event handlers...\n\n", 0);
 
 		for (auto _script : _backend->loadedScripts)
 			if (_script->initFunction)
 				_script->initFunction();
 
-		cout << "MESSAGE: Reload complete!" << "\n";
+		ConsoleLib::MessageOutput("Reload complete!\n\n", 1);
 
 		_msClock = chrono::high_resolution_clock::now();
 		_sClock = chrono::high_resolution_clock::now();
@@ -58,14 +64,14 @@ extern "C"
 		ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 		cout << "======================================" << "\n";
-		cout << "======= LuaBackend | v0.75 BETA ======" << "\n";
+		cout << "========= LuaBackend | v1.00 =========" << "\n";
 		cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 		cout << "======================================" << "\n";
-		cout << "=== Compatible with LuaEngine v3.1 ===" << "\n";
+		cout << "=== Compatible with LuaEngine v4.0 ===" << "\n";
 		cout << "========== Embedded Version ==========" << "\n";
 		cout << "======================================" << "\n\n";
 
-		cout << "MESSAGE: Initializing..." << "\n";
+		ConsoleLib::MessageOutput("Initializing LuaEngine v4.0...\n\n", 0);
 		_scrPath = string(ScriptPath);
 
 		MemoryLib::ExternProcess(ProcessID, ProcessH, TargetAddress);
@@ -74,18 +80,26 @@ extern "C"
 
 		if (_backend->loadedScripts.size() == 0)
 		{
-			cout << "MESSAGE: No scripts found! Initialization halted." << "\n";
+			ConsoleLib::MessageOutput("No scripts were found! Initialization halted!\n\n", 3);
 			return -1;
 		}
-
-		cout << "MESSAGE: Executing initialization event handlers..." << "\n\n";
+		
+		ConsoleLib::MessageOutput("Executing initialization event handlers...\n\n", 0);
 
 		for (auto _script : _backend->loadedScripts)
 			if (_script->initFunction)
-				_script->initFunction();
+			{
+				auto _result = _script->initFunction();
 
-		cout << "MESSAGE: Initialization complete!" << "\n";
-		cout << "MESSAGE: Press 'F1' to reload all scripts, press 'F2' to toggle the console, press 'F3' to set execution frequency." << "\n";
+				if (!_result.valid())
+				{
+					sol::error _err = _result;
+					ConsoleLib::MessageOutput(_err.what() + '\n', 3);
+				}
+			}
+
+		ConsoleLib::MessageOutput("Initialization complete!\n", 1);
+		ConsoleLib::MessageOutput("Press 'F1' to reload all scripts, press 'F2' to toggle the console, press 'F3' to set execution frequency.\n\n", 0);
 
 		_msClock = chrono::high_resolution_clock::now();
 		_sClock = chrono::high_resolution_clock::now();
@@ -107,16 +121,16 @@ extern "C"
 				{
 				    case 16:
 				    	_refresh = 8;
-						cout << "MESSAGE: Frequency set to 125FPS." << "\n";
+						ConsoleLib::MessageOutput("Frequency set to 125FPS.\n", 0);
 				    	break;
 				    case 8:
 			    		_refresh = 4;
-						cout << "MESSAGE: Frequency set to 250FPS." << "\n";
-				    	break;
+						ConsoleLib::MessageOutput("Frequency set to 250FPS.\n", 0);
+						break;
 				    case 4:
 				    	_refresh = 16;
-						cout << "MESSAGE: Frequency set to 62.5FPS." << "\n";
-				    	break;
+						ConsoleLib::MessageOutput("Frequency set to 62.5FPS.\n", 0);
+						break;
 				}
 
 				_sTime = 0;

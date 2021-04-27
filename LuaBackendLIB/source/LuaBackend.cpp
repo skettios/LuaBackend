@@ -3,6 +3,15 @@
 
 string _pathStr = "";
 
+int LuaBackend::ExceptionHandle(lua_State* luaState, sol::optional<const std::exception&> thrownException, sol::string_view description)
+{
+	const std::exception& _ex = *thrownException;
+
+	ConsoleLib::MessageOutput(_ex.what() + '\n', 3);
+
+	return sol::stack::push(luaState, _ex.what());
+}
+
 LuaBackend::LuaBackend(const char* ScrPath)
 {
 	loadedScripts.clear();
@@ -25,6 +34,8 @@ LuaBackend::LuaBackend(const char* ScrPath)
 			lib::utf8
 		);
 
+		_script->luaState.set_exception_handler(&ExceptionHandle);
+
 		SetFunctions(&_script->luaState);
 
 		string _luaPath = ScrPath;
@@ -46,37 +57,50 @@ LuaBackend::LuaBackend(const char* ScrPath)
 		string _pathFull = MemoryLib::PName;
 		auto _pathExe = _pathFull.substr(_pathFull.find_last_of("\\") + 1);
 
-		_script->luaState["ENGINE_VERSION"] = 3.2;
+		_script->luaState["ENGINE_VERSION"] = 4.1;
 		_script->luaState["ENGINE_TYPE"] = "BACKEND";
 		_script->luaState["GAME_ID"] = CRC::Calculate(_pathExe.c_str(), _pathExe.length(), CRC::CRC_32());
 
 		string _filePath(_path.path().u8string());
 
-		if (_filePath.find(".lua") != std::string::npos) 
+		if (_filePath.find(".lua") != std::string::npos)
 		{
 			string _luaName = _filePath.substr(_filePath.find_last_of("\\") + 1);
-			cout << "\nMESSAGE: Found script \"" + _luaName + "\" Initializing...\n";
+			_script->luaState["LUA_NAME"] = _luaName.substr(0, _luaName.size() - 4);
 
-			auto _result = _script->luaState.script_file(_filePath);
+			ConsoleLib::MessageOutput("Found script: \"" + _luaName + "\" Initializing...\n", 0);
+
+			auto _result = _script->luaState.script_file(_filePath, &sol::script_pass_on_error);
 
 			_script->initFunction = _script->luaState["_OnInit"];
 			_script->frameFunction = _script->luaState["_OnFrame"];
 
-			if (!_script->initFunction && !_script->frameFunction)
+			if (_result.valid())
 			{
-				cout << "\nERROR: No event handlers exist or all of them have errors.\n";
-				cout << L"ERROR: Initialization of this script cannot continue...\n";
-				return;
+				if (!_script->initFunction && !_script->frameFunction)
+				{
+					ConsoleLib::MessageOutput("No event handlers exist or all of them have errors.\n", 3);
+					ConsoleLib::MessageOutput("Initialization of this script cannot continue...\n", 3);
+					return;
+				}
+
+				if (!_script->initFunction)
+					ConsoleLib::MessageOutput("The event handler for initialization either has errors or does not exist.\n", 2);
+
+				if (!_script->frameFunction)
+					ConsoleLib::MessageOutput("The event handler for framedraw either has errors or does not exist.\n", 2);
+
+				ConsoleLib::MessageOutput("Initialization of this script was successful!\n\n", 1);
+
+				loadedScripts.push_back(_script);
 			}
 
-			if (!_script->initFunction)
-				cout << "WARNING: The event handler for initialization either has errors or does not exist.\n";
-
-			if (!_script->frameFunction)
-				cout << "WARNING: The event handler for framedraw either has errors or does not exist.\n";
-
-			cout << "MESSAGE: Initialization of this script was successful!\n";
-			loadedScripts.push_back(_script);
+			else
+			{
+				sol::error err = _result;
+				ConsoleLib::MessageOutput(err.what() + '\n', 3);
+				ConsoleLib::MessageOutput("Initialization of this script was aborted.\n", 3);
+			}
 		}
 	}
 }
@@ -129,4 +153,51 @@ void LuaBackend::SetFunctions(LuaState* _state)
 	_state->set_function("UpdateSImage", DCInstance::UpdateSImage);
 
 	_state->set_function("ULShift32", Operator32Lib::UnsignedShift32);
+
+	_state->set_function("ConsolePrint", 
+		sol::overload(
+			[_state](sol::object Text) 
+			{
+				HANDLE _hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+				SetConsoleTextAttribute(_hConsole, 14);
+				cout << "[" + _state->globals()["LUA_NAME"].get<string>() + "] ";
+
+				SetConsoleTextAttribute(_hConsole, 7);
+				cout << Text.as<string>() << '\n';
+			}, 
+
+			[_state](sol::object Text, int MessageType) 
+			{
+				HANDLE _hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+				SetConsoleTextAttribute(_hConsole, 14);
+				cout << "[" + _state->globals()["LUA_NAME"].get<string>() + "] ";
+
+				switch (MessageType)
+				{
+				case 0:
+					SetConsoleTextAttribute(_hConsole, 11);
+					cout << "MESSAGE: ";
+					break;
+				case 1:
+					SetConsoleTextAttribute(_hConsole, 10);
+					cout << "SUCCESS: ";
+					break;
+				case 2:
+					SetConsoleTextAttribute(_hConsole, 14);
+					cout << "WARNING: ";
+					break;
+				case 3:
+					SetConsoleTextAttribute(_hConsole, 12);
+					cout << "ERROR: ";
+					break;
+				}
+
+				SetConsoleTextAttribute(_hConsole, 7);
+				cout << Text.as<string>() << '\n';
+			}
+		)
+	);
+
 }
