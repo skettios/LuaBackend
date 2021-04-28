@@ -3,3 +3,7 @@ Debug/*
 LuaBackend/Debug/*
 LuaBackend/scripts/*
 *.user
+LuaBackendEXE/x64/*
+LuaBackendLIB/x64/*
+LuaBackendDLL/x64/*
+x64/*
