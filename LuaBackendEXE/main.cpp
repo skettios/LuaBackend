@@ -54,7 +54,8 @@ int main()
 	try { config.read(); }
 
 	catch (exception& e) {
-		ConsoleLib::MessageOutput(e.what() + '\n', 3);
+		string message = e.what();
+		ConsoleLib::MessageOutput(message + '\n', 3);
 		EnterWait();
 		return -5;
 	}
