@@ -1,4 +1,4 @@
-## LuaBackend Cheatsheet v4.00
+## LuaBackend Cheatsheet v4.10
 
 ---
 
@@ -128,6 +128,14 @@ Example:
 ```
 
 ## General I/O Functions
+
+### GetHertz()
+
+Gets the frequency of which LuaBackend scripts execute.
+
+### SetHertz(Frequency)
+
+Sets the Backend execution cycle to **Frequency**. The accepted values are **60**, **120**, and **240**.
 
 ### ULShift32(Base, Shift)
 
