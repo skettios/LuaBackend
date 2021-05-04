@@ -57,7 +57,7 @@ LuaBackend::LuaBackend(const char* ScrPath)
 		string _pathFull = MemoryLib::PName;
 		auto _pathExe = _pathFull.substr(_pathFull.find_last_of("\\") + 1);
 
-		_script->luaState["ENGINE_VERSION"] = 4.1;
+		_script->luaState["ENGINE_VERSION"] = 4.2;
 		_script->luaState["ENGINE_TYPE"] = "BACKEND";
 		_script->luaState["GAME_ID"] = CRC::Calculate(_pathExe.c_str(), _pathExe.length(), CRC::CRC_32());
 
@@ -199,5 +199,33 @@ void LuaBackend::SetFunctions(LuaState* _state)
 			}
 		)
 	);
+
+	_state->set_function("GetHertz",
+		[this]()
+		{
+			switch (frameLimit)
+			{
+			case 16:
+				return 60;
+			case 8:
+				return 120;
+			case 4:
+				return 240;
+			}
+		});
+
+	_state->set_function("SetHertz",
+		[this](int Input)
+		{
+			switch (Input)
+			{
+			case 60:
+				frameLimit = 16;
+			case 120:
+				frameLimit = 8;
+			case 240:
+				frameLimit = 4;
+			}
+		});
 
 }

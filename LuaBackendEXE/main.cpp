@@ -24,6 +24,9 @@ void EnterWait()
 
 void _execute(future<void> futureObj)
 {
+	if (_refresh != _backend->frameLimit)
+		 _refresh = _backend->frameLimit;
+
 	while (futureObj.wait_for(chrono::milliseconds(_refresh)) == future_status::timeout)
 	{
 		for (auto _script : _backend->loadedScripts)
@@ -35,10 +38,10 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "========= LuaBackend | v1.00 =========" << "\n";
+	cout << "========= LuaBackend | v1.10 =========" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
-	cout << "=== Compatible with LuaEngine v4.0 ===" << "\n";
+	cout << "=== Compatible with LuaEngine v4.1 ===" << "\n";
 	cout << "========== External Version ==========" << "\n";
 	cout << "======================================" << "\n\n";
 
@@ -63,7 +66,8 @@ int main()
 	uint64_t _baseAddress;
 	_refresh = config.hzRefresh;
 
-	std::istringstream _stream(config.baseAddr);
+	std::stringstream _stream;
+	_stream << std::hex << config.baseAddr;
 	_stream >> _baseAddress;
 
 	if (config.attachOn)
@@ -118,8 +122,9 @@ int main()
 	if (!filesystem::exists(_scriptPath))
 		filesystem::create_directory(_scriptPath);
 
-	ConsoleLib::MessageOutput("Hooking and initializing LuaEngine v4.0...\n\n", 0);
+	ConsoleLib::MessageOutput("Hooking and initializing LuaEngine v4.1...\n\n", 0);
 	_backend = new LuaBackend(_scriptPath.c_str());
+    _backend->frameLimit = _refresh;
 
 	ConsoleLib::MessageOutput("Executing initialization event handlers...\n\n", 0);
 

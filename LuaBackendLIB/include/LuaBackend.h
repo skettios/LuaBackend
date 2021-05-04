@@ -29,6 +29,7 @@ class LuaBackend
 		};
 
 		std::vector<LuaScript*> loadedScripts;
+		int frameLimit;
 
 		static int ExceptionHandle(lua_State*, sol::optional<const std::exception&>, sol::string_view);
 		void SetFunctions(LuaState*);

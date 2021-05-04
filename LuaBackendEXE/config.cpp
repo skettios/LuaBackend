@@ -48,7 +48,7 @@ void Config::read() {
 				hzRefresh = 16;
 
 			if (configCollection.has("BIG_ENDIAN"))
-				bEndian = StringToBool(configCollection["ATTACH"]);
+				bEndian = StringToBool(configCollection["BIG_ENDIAN"]);
 			else
 				bEndian = false;
 		}
