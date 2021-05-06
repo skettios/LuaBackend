@@ -15,6 +15,8 @@ using namespace std;
 int _refresh = 16;
 LuaBackend* _backend = nullptr;
 
+chrono::high_resolution_clock::time_point _msClock;
+
 void EnterWait()
 {
 	string _output;
@@ -24,21 +26,39 @@ void EnterWait()
 
 void _execute(future<void> futureObj)
 {
-	if (_refresh != _backend->frameLimit)
-		 _refresh = _backend->frameLimit;
-
-	while (futureObj.wait_for(chrono::milliseconds(_refresh)) == future_status::timeout)
+	while (futureObj.wait_for(chrono::milliseconds(0)) == future_status::timeout)
 	{
-		for (auto _script : _backend->loadedScripts)
-			if (_script->frameFunction)
-				_script->frameFunction();
+		auto _currTime = chrono::high_resolution_clock::now();
+		auto _msTime = chrono::duration_cast<std::chrono::milliseconds>(_currTime - _msClock).count();
+
+		if (_msTime > _backend->frameLimit)
+		{
+			for (int i = 0; i < _backend->loadedScripts.size(); i++)
+			{
+				auto _script = _backend->loadedScripts[i];
+
+				if (_script->frameFunction)
+				{
+					auto _result = _script->frameFunction();
+
+					if (!_result.valid())
+					{
+						sol::error _err = _result;
+						ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+						_backend->loadedScripts.erase(_backend->loadedScripts.begin() + i);
+					}
+				}
+			}
+
+			_msClock = chrono::high_resolution_clock::now();
+		}
 	}
 }
 
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "========= LuaBackend | v1.10 =========" << "\n";
+	cout << "========= LuaBackend | v1.15 =========" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
 	cout << "=== Compatible with LuaEngine v4.1 ===" << "\n";
@@ -64,7 +84,6 @@ int main()
 	}
 
 	uint64_t _baseAddress;
-	_refresh = config.hzRefresh;
 
 	std::stringstream _stream;
 	_stream << std::hex << config.baseAddr;
@@ -124,7 +143,7 @@ int main()
 
 	ConsoleLib::MessageOutput("Hooking and initializing LuaEngine v4.1...\n\n", 0);
 	_backend = new LuaBackend(_scriptPath.c_str());
-    _backend->frameLimit = _refresh;
+	_backend->frameLimit = config.hzRefresh;
 
 	ConsoleLib::MessageOutput("Executing initialization event handlers...\n\n", 0);
 
@@ -136,11 +155,7 @@ int main()
 			if (!_result.valid())
 			{
 				sol::error _err = _result;
-
-				ConsoleLib::MessageOutput(_err.what() + '\n', 3);
-				ConsoleLib::MessageOutput("Press RETURN to continue...\n", 0);
-
-				EnterWait();
+				ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
 			}
 		}
 
