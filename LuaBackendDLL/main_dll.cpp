@@ -117,91 +117,94 @@ extern "C"
 
 	void __declspec(dllexport) ExecuteLUA()
 	{
-		auto _currTime = chrono::high_resolution_clock::now();
-		auto _msTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _msClock).count();
-		auto _sTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _sClock).count();
-
-		if (_msTime > _backend->frameLimit)
+		if (_requestedReset == false)
 		{
-			if (GetKeyState(VK_F3) & 0x8000 && _funcThreeState)
+			auto _currTime = chrono::high_resolution_clock::now();
+			auto _msTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _msClock).count();
+			auto _sTime = std::chrono::duration_cast<std::chrono::milliseconds>(_currTime - _sClock).count();
+
+			if (_msTime > _backend->frameLimit)
 			{
-				switch (_backend->frameLimit)
+				if (GetKeyState(VK_F3) & 0x8000 && _funcThreeState)
 				{
-				    case 16:
+					switch (_backend->frameLimit)
+					{
+					case 16:
 						_backend->frameLimit = 8;
 						ConsoleLib::MessageOutput("Frequency set to 120Hz.\n", 0);
-				    	break;
-				    case 8:
+						break;
+					case 8:
 						_backend->frameLimit = 4;
 						ConsoleLib::MessageOutput("Frequency set to 240Hz.\n", 0);
 						break;
-				    case 4:
+					case 4:
 						_backend->frameLimit = 16;
 						ConsoleLib::MessageOutput("Frequency set to 60Hz.\n", 0);
 						break;
+					}
+
+					_sTime = 0;
+					_funcThreeState = false;
+					_sClock = chrono::high_resolution_clock::now();
 				}
-
-				_sTime = 0;
-				_funcThreeState = false;
-				_sClock = chrono::high_resolution_clock::now();
-			}
-			if (GetKeyState(VK_F2) & 0x8000 && _funcTwoState)
-			{
-				if (_showConsole)
+				if (GetKeyState(VK_F2) & 0x8000 && _funcTwoState)
 				{
-					ShowWindow(GetConsoleWindow(), SW_HIDE);
-					_showConsole = false;
-				}
-
-				else
-				{
-					ShowWindow(GetConsoleWindow(), SW_RESTORE);
-					_showConsole = true;
-				}
-
-				_sTime = 0;
-				_funcTwoState = false;
-				_sClock = chrono::high_resolution_clock::now();
-			}
-			if (GetKeyState(VK_F1) & 0x8000 && _funcOneState)
-			{
-				_requestedReset = true;
-
-				_sTime = 0;
-				_funcOneState = false;
-				_sClock = chrono::high_resolution_clock::now();
-			}
-
-			for (int i = 0; i < _backend->loadedScripts.size(); i++)
-			{
-				auto _script = _backend->loadedScripts[i];
-
-				if (_script->frameFunction)
-				{
-					auto _result = _script->frameFunction();
-
-					if (!_result.valid())
+					if (_showConsole)
 					{
-						sol::error _err = _result;
-						ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
-						_backend->loadedScripts.erase(_backend->loadedScripts.begin() + i);
+						ShowWindow(GetConsoleWindow(), SW_HIDE);
+						_showConsole = false;
+					}
+
+					else
+					{
+						ShowWindow(GetConsoleWindow(), SW_RESTORE);
+						_showConsole = true;
+					}
+
+					_sTime = 0;
+					_funcTwoState = false;
+					_sClock = chrono::high_resolution_clock::now();
+				}
+				if (GetKeyState(VK_F1) & 0x8000 && _funcOneState)
+				{
+					_requestedReset = true;
+
+					_sTime = 0;
+					_funcOneState = false;
+					_sClock = chrono::high_resolution_clock::now();
+				}
+
+				for (int i = 0; i < _backend->loadedScripts.size(); i++)
+				{
+					auto _script = _backend->loadedScripts[i];
+
+					if (_script->frameFunction)
+					{
+						auto _result = _script->frameFunction();
+
+						if (!_result.valid())
+						{
+							sol::error _err = _result;
+							ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+							_backend->loadedScripts.erase(_backend->loadedScripts.begin() + i);
+						}
 					}
 				}
+
+				_msClock = chrono::high_resolution_clock::now();
 			}
-					
-			if (_requestedReset)
-				ResetLUA();
 
-			_msClock = chrono::high_resolution_clock::now();
+			if (_sTime > 250)
+			{
+				_funcOneState = true;
+				_funcTwoState = true;
+				_funcThreeState = true;
+				_sClock = chrono::high_resolution_clock::now();
+			}
 		}
 
-		if (_sTime > 250)
-		{
-			_funcOneState = true;
-			_funcTwoState = true;
-			_funcThreeState = true;
-			_sClock = chrono::high_resolution_clock::now();
-		}
+		else
+			ResetLUA();
 	}
 
 	bool __declspec(dllexport) CheckLUA()

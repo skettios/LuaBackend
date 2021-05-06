@@ -3,16 +3,14 @@
 
 string _pathStr = "";
 
-int LuaBackend::ExceptionHandle(lua_State* luaState, sol::optional<const std::exception&> thrownException, sol::string_view description)
+LuaBackend::LuaBackend(const char* ScrPath)
 {
-	const std::exception& _ex = *thrownException;
-
-	ConsoleLib::MessageOutput(_ex.what() + '\n', 3);
-
-	return sol::stack::push(luaState, _ex.what());
+	frameLimit = 16;
+	loadedScripts = vector<LuaScript*>();
+	LoadScripts(ScrPath);
 }
 
-LuaBackend::LuaBackend(const char* ScrPath)
+void LuaBackend::LoadScripts(const char* ScrPath)
 {
 	loadedScripts.clear();
 
@@ -103,6 +101,7 @@ LuaBackend::LuaBackend(const char* ScrPath)
 			}
 		}
 	}
+
 }
 
 void LuaBackend::SetFunctions(LuaState* _state)
@@ -221,10 +220,13 @@ void LuaBackend::SetFunctions(LuaState* _state)
 			{
 			case 60:
 				frameLimit = 16;
+				break;
 			case 120:
 				frameLimit = 8;
+				break;
 			case 240:
 				frameLimit = 4;
+				break;
 			}
 		});
 
