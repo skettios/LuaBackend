@@ -204,7 +204,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 		{
 			switch (frameLimit)
 			{
-			case 16:
+			default:
 				return 60;
 			case 8:
 				return 120;
@@ -218,7 +218,7 @@ void LuaBackend::SetFunctions(LuaState* _state)
 		{
 			switch (Input)
 			{
-			case 60:
+			default:
 				frameLimit = 16;
 				break;
 			case 120:

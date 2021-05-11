@@ -35,6 +35,7 @@ extern "C"
 
 	void ResetLUA()
 	{
+		printf("\n");
 		ConsoleLib::MessageOutput("Reloading...\n\n", 0);
 		_backend = new LuaBackend(_scrPath.c_str());
 
@@ -51,7 +52,8 @@ extern "C"
 				if (!_result.valid())
 				{
 					sol::error _err = _result;
-					ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+					ConsoleLib::MessageOutput(_err.what(), 3);
+					printf("\n\n");
 				}
 			}
 
@@ -71,7 +73,7 @@ extern "C"
 		ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 		cout << "======================================" << "\n";
-		cout << "========= LuaBackend | v1.15 =========" << "\n";
+		cout << "========= LuaBackend | v1.20 =========" << "\n";
 		cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 		cout << "======================================" << "\n";
 		cout << "=== Compatible with LuaEngine v4.1 ===" << "\n";
@@ -102,7 +104,8 @@ extern "C"
 				if (!_result.valid())
 				{
 					sol::error _err = _result;
-					ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+					ConsoleLib::MessageOutput(_err.what(), 3);
+					printf("\n\n");
 				}
 			}
 
@@ -185,7 +188,9 @@ extern "C"
 						if (!_result.valid())
 						{
 							sol::error _err = _result;
-							ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+							ConsoleLib::MessageOutput(_err.what(), 3);
+							printf("\n\n");
+
 							_backend->loadedScripts.erase(_backend->loadedScripts.begin() + i);
 						}
 					}

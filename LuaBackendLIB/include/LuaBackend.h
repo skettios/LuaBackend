@@ -10,8 +10,6 @@
 #include <Operator32Lib.h>
 #include <DCInstance.h>
 
-
-
 using namespace sol;
 using namespace std;
 
@@ -33,7 +31,7 @@ class LuaBackend
 
 		static int ExceptionHandle(lua_State* luaState, sol::optional<const std::exception&> thrownException, sol::string_view description)
 		{
-			const std::exception& _ex = *thrownException;
+			const std::exception _ex = *thrownException;
 			ConsoleLib::MessageOutput(_ex.what() + '\n', 3);
 
 			return sol::stack::push(luaState, _ex.what());

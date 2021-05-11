@@ -44,7 +44,9 @@ void _execute(future<void> futureObj)
 					if (!_result.valid())
 					{
 						sol::error _err = _result;
-						ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+						ConsoleLib::MessageOutput(_err.what(), 3);
+						printf("\n\n");
+
 						_backend->loadedScripts.erase(_backend->loadedScripts.begin() + i);
 					}
 				}
@@ -58,7 +60,7 @@ void _execute(future<void> futureObj)
 int main()
 {
 	cout << "======================================" << "\n";
-	cout << "========= LuaBackend | v1.15 =========" << "\n";
+	cout << "========= LuaBackend | v1.20 =========" << "\n";
 	cout << "====== Copyright 2021 - TopazTK ======" << "\n";
 	cout << "======================================" << "\n";
 	cout << "=== Compatible with LuaEngine v4.1 ===" << "\n";
@@ -78,7 +80,9 @@ int main()
 
 	catch (exception& e) {
 		string message = e.what();
-		ConsoleLib::MessageOutput(message + '\n', 3);
+		ConsoleLib::MessageOutput(message, 3);
+		printf("\n\n");
+
 		EnterWait();
 		return -5;
 	}
@@ -155,7 +159,8 @@ int main()
 			if (!_result.valid())
 			{
 				sol::error _err = _result;
-				ConsoleLib::MessageOutput(_err.what() + '\n\n', 3);
+				ConsoleLib::MessageOutput(_err.what(), 3);
+				printf("\n\n");
 			}
 		}
 
